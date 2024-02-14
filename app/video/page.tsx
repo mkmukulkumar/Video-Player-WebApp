@@ -12,27 +12,18 @@ export default function Page() {
     router.push('/');
     return null;
   }
-  const [Play,setPlay]=useState(true);
+  const [Play,setPlay]=useState(false);
   const [fullscreen,setFullscreen]=useState(true);
   const handleplay=()=>{
-    const video=videoRef.current;
-    if(video){
-      if(!Play)
-        video.play();
-      else
-        video.pause();
-      setPlay(!Play)
-    }
-    
+    setPlay(!Play)   
   }
   const handlefullscreen=()=>{
     setFullscreen(!fullscreen)
   }
-
   useEffect(() => {
     const video=videoRef.current;
     if(video){
-      if(Play)
+      if(!Play)
         video.play();
       else
         video.pause();
