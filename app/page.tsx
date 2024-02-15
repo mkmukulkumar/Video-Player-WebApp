@@ -1,11 +1,12 @@
 "use client"
 import React, { useState } from "react";
 import ListView from "./components/ListView";
-import { data } from "./videodata/videodata";
+import { data } from "./videoData/videodata";
 export default function Page() {
+  //state variables
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredData, setFilteredData] = useState(data);
-
+  //handle search
     const handleSearch = (event: { target: { value: string }; }) => {
       const searchText = event.target.value;
       setSearchTerm(searchText);
@@ -22,7 +23,7 @@ export default function Page() {
         <h1 className="font-black mx-3">Video Player</h1>
         <i className="bi bi-grid-fill"></i>
         <input className="h-10 w-4/6 px-3 text-black"
-                placeholder="Search..."
+                placeholder="Search"
                 value={searchTerm}
                 onChange={handleSearch}
           /> 

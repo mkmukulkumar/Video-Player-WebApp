@@ -14,6 +14,7 @@ interface ListViewProps {
 }
 
 export default function ListView({data}:ListViewProps) {
+  //view mode state
   const [toggleViewMode,setToggleViewMode]=useState(true)
 
   return (
