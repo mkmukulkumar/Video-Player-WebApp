@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, SetStateAction} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
 import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute} from 'react-bootstrap-icons';
 export default function Page() {
@@ -108,7 +108,7 @@ export default function Page() {
   }
 
   //playback rate
-  const handlePlaybackRate=(event)=>{
+  const handlePlaybackRate=(event: React.ChangeEvent<HTMLSelectElement>)=>{
     const video=videoRef.current;
     if(video){
       video.playbackRate=event.target.value;
@@ -118,7 +118,7 @@ export default function Page() {
   }
 
   // change volume
-  const handlevolume=(event)=>{
+  const handlevolume=(event: React.ChangeEvent<HTMLSelectElement>)=>{
     const video=videoRef.current
     if(video){
       const vol=parseFloat(event.target.value)
@@ -133,7 +133,7 @@ export default function Page() {
   }
 
   // change seek
-  const handleseek=(event)=>{
+  const handleseek=(event: { target: { value: string; }; })=>{
     const video=videoRef.current
     if(video){
       const seek=parseFloat(event.target.value)
