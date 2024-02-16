@@ -8,10 +8,10 @@ export default function Page() {
   //refernce variable
   const videoRef=useRef(null);
   const videoplayerRef=useRef(null);
-  const timerRef = useRef(null);
-  const showtimeRef = useRef(null);
-  const centertimeRef = useRef(null);
-  
+  const timerRef = useRef<ReturnType<typeof setInterval>>(null);
+  const showtimeRef = useRef<ReturnType<typeof setInterval>>(null);
+  const centertimeRef = useRef<ReturnType<typeof setInterval>>(null);
+
   
   //state variables
   const [Play,setPlay]=useState(false);
