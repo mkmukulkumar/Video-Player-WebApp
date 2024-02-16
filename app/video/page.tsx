@@ -189,11 +189,10 @@ export default function Page() {
   const url = searchParams.get('url');
   if (!url) {
     router.push('/');
-    return (<p>Please provide a valid video Url</p>);
+    return null;
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
         <div ref={videoplayerRef} 
         className='flex flex-col bg-black justify-center h-screen'
         onMouseMove={showControls}
@@ -260,7 +259,6 @@ export default function Page() {
               </div>  
             </div>
           </div>  
-        </div>
-    </Suspense>    
+        </div>   
   );
 };
