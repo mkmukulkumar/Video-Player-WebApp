@@ -186,9 +186,9 @@ export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const url = searchParams.get('url');
-  if (url === null) {
+  if (!url) {
     router.push('/');
-    return null;
+    return <p>Please provide a valid video Url</p>;
   }
 
   return (
