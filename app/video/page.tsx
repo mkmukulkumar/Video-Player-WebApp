@@ -171,6 +171,7 @@ export default function Page() {
     const video=videoRef.current
     if(video){
       video.currentTime=video.currentTime-10;
+      setSeekVal((Math.ceil(video.currentTime)/Math.ceil(video.duration))*100)
       setCenterTag(<ChevronDoubleLeft className='text-6xl'/>)
     }
   }
@@ -179,6 +180,7 @@ export default function Page() {
     const video=videoRef.current
     if(video){
       video.currentTime=video.currentTime+10;
+      setSeekVal((Math.ceil(video.currentTime)/Math.ceil(video.duration))*100)
       setCenterTag(<ChevronDoubleRight className='text-6xl'/>)
     }
   }
@@ -198,14 +200,16 @@ export default function Page() {
         onMouseMove={showControls}
         onClick={showControls}
         >
-          <video muted={Mute} 
-              ref={videoRef}
-              className="h-full"
-              onLoadedMetadata={handleLoadedMetadata}
-              onClick={handleplay}>
-            <source src={url} type="video/mp4"/>
-            Your browser does not support the video tag.
-          </video>      
+          <Suspense fallback={<div>Loading...</div>}>
+            <video muted={Mute} 
+                ref={videoRef}
+                className="h-full"
+                onLoadedMetadata={handleLoadedMetadata}
+                onClick={handleplay}>
+              <source src={url} type="video/mp4"/>
+              Your browser does not support the video tag.
+            </video>
+          </Suspense>      
           <div className={`fixed bottom-0 w-full`}>
             {/* black shadow on top controls */}
             <div className={`fixed -top-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`}></div>
