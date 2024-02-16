@@ -48,7 +48,9 @@ export default function Page() {
   }
   };
   const stopTimer = () => {
-    clearInterval(timerRef.current);
+    if (timerRef.current !== null) {
+      clearInterval(timerRef.current);
+    }
   };
 
   //full screen mode
