@@ -4,14 +4,6 @@ import { useState, useRef, useEffect} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
 import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute} from 'react-bootstrap-icons';
 export default function Page() {
-  //get value from url
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const url = searchParams.get('url');
-  if (url === null) {
-    router.push('/');
-    return null;
-  }
 
   //refernce variable
   const videoRef=useRef(null);
@@ -166,7 +158,15 @@ export default function Page() {
     }, 500)
   }, [CenterTag]);
 
-
+  //get value from url
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const url = searchParams.get('url');
+  if (url === null) {
+    router.push('/');
+    return null;
+  }
+  
   return (
     <div ref={videoplayerRef} 
     className='flex flex-col bg-black justify-center h-screen'
