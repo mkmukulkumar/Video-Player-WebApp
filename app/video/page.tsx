@@ -111,10 +111,10 @@ export default function Page() {
   const handlePlaybackRate=(event: React.ChangeEvent<HTMLSelectElement>)=>{
     const video=videoRef.current;
     if(video){
-      video.playbackRate=event.target.value;
+      video.playbackRate=parseFloat(event.target.value);
     }
     setCenterTag(<p className='text-5xl'>{event.target.value}x</p>)
-    setPlaybackRate(event.target.value);
+    setPlaybackRate(parseFloat(event.target.value));
   }
 
   // change volume
