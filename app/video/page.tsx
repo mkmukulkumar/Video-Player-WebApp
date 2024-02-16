@@ -118,7 +118,7 @@ export default function Page() {
   }
 
   // change volume
-  const handlevolume=(event: React.ChangeEvent<HTMLSelectElement>)=>{
+  const handlevolume=(event: { target: { value: string; };})=>{
     const video=videoRef.current
     if(video){
       const vol=parseFloat(event.target.value)
