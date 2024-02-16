@@ -8,9 +8,9 @@ export default function Page() {
   // reference variables
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoplayerRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const showtimeRef = useRef<NodeJS.Timeout | null>(null);
-  const centertimeRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const showtimeRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const centertimeRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // state variables
   const [Play, setPlay] = useState<boolean>(false);
