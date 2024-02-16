@@ -39,7 +39,10 @@ export default function ListView({data}:ListViewProps) {
                   key={item.title}>
                     <Link href={{pathname:'/video', query:{url:item.sources[0]}}} className={`flex ${toggleViewMode?"flex-col":"flex-row"} p-1`}>
                       <div className="basis-1/4">
-                          <img className="object-cover rounded-lg" src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} alt={item.title} />
+                          <img className="object-cover rounded-lg" 
+                               src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} 
+                               alt={item.title} 
+                               />
                       </div> 
                       <div className={`flex justify-between basis-3/4 ${toggleViewMode?'items-center':'item-start'}`}>
                         <div className={`flex flex-col  ${toggleViewMode?'m-1':'mx-5 my-6'}`}>
