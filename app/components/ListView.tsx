@@ -12,6 +12,7 @@ interface ListItem{
 
 interface ListViewProps {
   data: ListItem[];
+  search: string;
 }
 
 export default function ListView({data, search}:ListViewProps) {
@@ -21,7 +22,7 @@ export default function ListView({data, search}:ListViewProps) {
   return (
       <div className='w-full '> 
       {search==""?
-        <div className={`px-48 my-10 ${search==""?'visible':'invisible'}`}>
+        <div className={`px-48 my-10 ${search===""?'visible':'invisible'}`}>
           <p className='text-lg'>Recommended{search}</p>
               <ul className={`pl-4 list-none py-5 flex w-full overflow-scroll gap-x-2 scrollbar-hide items-center`}>
               <p className='text-4xl pr-8'><ChevronLeft/></p>
