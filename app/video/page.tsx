@@ -10,7 +10,7 @@ export default function Page() {
   const videoplayerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const showtimeRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const centertimeRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const centertimeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // state variables
   const [Play, setPlay] = useState<boolean>(false);
@@ -146,7 +146,9 @@ export default function Page() {
   //to hide controls on no mouse movement
   const showControls=()=>{
     setControlsVisible(true);
-    clearTimeout(showtimeRef.current)
+    if (showtimeRef.current !== null) {
+      clearInterval(showtimeRef.current);
+    }
     showtimeRef.current=setTimeout(() => {
       setControlsVisible(false);
     }, 5000);
@@ -155,7 +157,9 @@ export default function Page() {
   //to show icons on the center of the page
   useEffect(() => { 
     setCenterIcon(true)
-    clearTimeout(centertimeRef.current)
+    if (centertimeRef.current !== null) {
+      clearTimeout(centertimeRef.current)
+    }
     centertimeRef.current=setTimeout(() => {
       setCenterIcon(false);
     }, 500)
