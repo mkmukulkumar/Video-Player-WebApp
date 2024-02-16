@@ -165,6 +165,23 @@ export default function Page() {
     }, 500)
   }, [CenterTag]);
 
+  //handle reverse
+  const handlereverse=()=>{
+    const video=videoRef.current
+    if(video){
+      video.currentTime=video.currentTime-10;
+      setCenterTag(<ChevronDoubleLeft className='text-6xl'/>)
+    }
+  }
+  //handle forward
+  const handleforward=()=>{
+    const video=videoRef.current
+    if(video){
+      video.currentTime=video.currentTime+10;
+      setCenterTag(<ChevronDoubleRight className='text-6xl'/>)
+    }
+  }
+
   //get value from url
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -212,9 +229,9 @@ export default function Page() {
           </div>
           <div className='flex  justify-between'>
             <div className='flex justify-between w-1/3'>
-              <button className='text-2xl'onClick={()=>{videoRef.current.currentTime=videoRef.current.currentTime-10; setCenterTag(<ChevronDoubleLeft className='text-6xl'/>)}}><ChevronDoubleLeft/></button>
+              <button className='text-2xl' onClick={handlereverse}><ChevronDoubleLeft/></button>
               <button className='text-6xl' onClick={handleplay}>{Play?<PlayFill/>:<PauseFill/>}</button>
-              <button className='text-2xl' onClick={()=>{videoRef.current.currentTime=videoRef.current.currentTime+10; setCenterTag(<ChevronDoubleRight className='text-6xl'/>)}}><ChevronDoubleRight/></button>
+              <button className='text-2xl' onClick={handleforward}><ChevronDoubleRight/></button>
               <div className='flex items-center' onMouseEnter={()=>setShowVolbar(true)} onMouseLeave={()=>setShowVolbar(false)}>
                 <button className='text-2xl'onClick={()=>{setMute(!Mute);  Mute?setCenterTag(<VolumeUpFill/>):setCenterTag(<VolumeMute/>)}}>{Mute?<VolumeMute/>:<VolumeUpFill/>}</button>
                 <input className={`ml-2 w-20 h-0.5 cursor-pointer transition-scale duration-700 ease-in-out origin-left ${ShowVolbar?"scale-x-100":"scale-x-0"}`} 
