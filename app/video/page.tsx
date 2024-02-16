@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useRef, useEffect, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, SetStateAction, Suspense} from 'react';
+import { useState, useRef, useEffect, Suspense} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
 import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute} from 'react-bootstrap-icons';
 export default function Page() {

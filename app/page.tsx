@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <div className="flex flex-col items-center">
       <div className="z-10 px-48 sticky top-0 flex items-center w-full justify-between bg-violet-800 py-5 z-20">
-        <h1 className="font-black mx-3">Video Player</h1>
+        <h1 className="font-black ">Video Player</h1>
         <i className="bi bi-grid-fill"></i>
         <input className="h-10 w-4/6 px-3 text-black rounded-lg"
                 placeholder="Search"
@@ -28,7 +28,7 @@ export default function Page() {
                 onChange={handleSearch}
           /> 
       </div>
-      <ListView data={filteredData} />
+      <ListView data={filteredData} search={searchTerm} />
     </div>
   );
 }
