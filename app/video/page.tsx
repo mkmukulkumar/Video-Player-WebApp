@@ -31,20 +31,22 @@ export default function Page() {
 
   // start and stop timer of video
   const startTimer = () => {
-    timerRef.current = setInterval(() => {
-      const video = videoRef.current;
-      if (video) {
-        setSeekVal((Math.ceil(video.currentTime)/Math.ceil(video.duration))*100)
-        if (video.currentTime < video.duration) {
-          var date_format=convertSeconds(Math.ceil(video.currentTime))
-          setCurrentTime(date_format);
-        } else {
-          var date_format=convertSeconds(Math.ceil(video.duration))
-          setCurrentTime(date_format);
-          setPlay(!Play)
+    if(timerRef){
+      timerRef.current = setInterval(() => {
+        const video = videoRef.current;
+        if (video) {
+          setSeekVal((Math.ceil(video.currentTime)/Math.ceil(video.duration))*100)
+          if (video.currentTime < video.duration) {
+            var date_format=convertSeconds(Math.ceil(video.currentTime))
+            setCurrentTime(date_format);
+          } else {
+            var date_format=convertSeconds(Math.ceil(video.duration))
+            setCurrentTime(date_format);
+            setPlay(!Play)
+          }
         }
-      }
-    }, 1000); 
+      }, 1000); 
+  }
   };
   const stopTimer = () => {
     clearInterval(timerRef.current);
@@ -166,7 +168,7 @@ export default function Page() {
     router.push('/');
     return null;
   }
-  
+
   return (
     <div ref={videoplayerRef} 
     className='flex flex-col bg-black justify-center h-screen'
