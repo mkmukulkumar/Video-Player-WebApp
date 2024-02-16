@@ -144,10 +144,10 @@ export default function Page() {
     const video=videoRef.current
     if(video){
       const seek=parseFloat(event.target.value)
+      setSeekVal(seek)
       const currentseek=(video.duration)*(seek/100)
-      video.currentTime=currentseek
+      video.currentTime=currentseek 
     }
-
   }
 
   //to hide controls on no mouse movement
@@ -199,7 +199,10 @@ export default function Page() {
         
         <div className={`py-4 mx-48 duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}>  
           <div className="mb-2">
-            <input className='w-full h-1 cursor-pointer' type="range" defaultValue={SeekVal} onChange={handleseek}/>
+            <input className='w-full h-1 cursor-pointer' 
+                   type="range" 
+                   value={SeekVal} 
+                   onChange={handleseek} />
             <p>{(CurrentTime==="NaN:NaN:NaN"||Duration==="NaN:NaN:NaN")?'':`${CurrentTime} / ${Duration}`}</p>
           </div>
           <div className='flex  justify-between'>
@@ -209,7 +212,13 @@ export default function Page() {
               <button className='text-2xl' onClick={()=>{videoRef.current.currentTime=videoRef.current.currentTime+10; setCenterTag(<ChevronDoubleRight className='text-6xl'/>)}}><ChevronDoubleRight/></button>
               <div className='flex items-center' onMouseEnter={()=>setShowVolbar(true)} onMouseLeave={()=>setShowVolbar(false)}>
                 <button className='text-2xl'onClick={()=>{setMute(!Mute);  Mute?setCenterTag(<VolumeUpFill/>):setCenterTag(<VolumeMute/>)}}>{Mute?<VolumeMute/>:<VolumeUpFill/>}</button>
-                <input className={`ml-2 w-20 h-0.5 cursor-pointer transition-scale duration-700 ease-in-out origin-left ${ShowVolbar?"scale-x-100":"scale-x-0"}`} type="range" value={Mute?0:Vol} onChange={handlevolume} min={0} max={1} step={0.01} />
+                <input className={`ml-2 w-20 h-0.5 cursor-pointer transition-scale duration-700 ease-in-out origin-left ${ShowVolbar?"scale-x-100":"scale-x-0"}`} 
+                    type="range" 
+                    value={Mute?0:Vol} 
+                    onChange={handlevolume} 
+                    min={0} 
+                    max={1} 
+                    step={0.01} />
               </div>  
             </div>
             <div className='flex items-center'>
