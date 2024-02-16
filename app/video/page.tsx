@@ -5,28 +5,27 @@ import convertSeconds from '../utilFunctions/convertSeconds';
 import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute} from 'react-bootstrap-icons';
 export default function Page() {
 
-  //refernce variable
-  const videoRef=useRef(null);
-  const videoplayerRef=useRef(null);
-  const timerRef = useRef<ReturnType<typeof setInterval>>(null);
-  const showtimeRef = useRef<ReturnType<typeof setInterval>>(null);
-  const centertimeRef = useRef<ReturnType<typeof setInterval>>(null);
+  // reference variables
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoplayerRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const showtimeRef = useRef<NodeJS.Timeout | null>(null);
+  const centertimeRef = useRef<NodeJS.Timeout | null>(null);
 
-  
-  //state variables
-  const [Play,setPlay]=useState(false);
-  const [fullscreen,setFullscreen]=useState(false);
-  const [Mute,setMute]=useState(true);
-  const [Duration,setDuration]=useState("00:00:00");
-  const [CurrentTime, setCurrentTime]=useState("00:00:00");
-  const [PlaybackRate, setPlaybackRate]=useState(1);
-  const [ControlsVisible,setControlsVisible]=useState(false);
-  const [CenterIcon,setCenterIcon]=useState(false);
-  const [CenterTag,setCenterTag]=useState(<PlayFill/>)
-  const [Vol,setVol]=useState(100);
-  const [SeekVal,setSeekVal]=useState(0.0);
-  const [ShowVolbar,setShowVolbar]=useState(false);
-  const playbackOptions=[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
+  // state variables
+  const [Play, setPlay] = useState<boolean>(false);
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
+  const [Mute, setMute] = useState<boolean>(true);
+  const [Duration, setDuration] = useState<string>("00:00:00");
+  const [CurrentTime, setCurrentTime] = useState<string>("00:00:00");
+  const [PlaybackRate, setPlaybackRate] = useState<number>(1);
+  const [ControlsVisible, setControlsVisible] = useState<boolean>(false);
+  const [CenterIcon, setCenterIcon] = useState<boolean>(false);
+  const [CenterTag, setCenterTag] = useState<JSX.Element>(<PlayFill />);
+  const [Vol, setVol] = useState<number>(100);
+  const [SeekVal, setSeekVal] = useState<number>(0.0);
+  const [ShowVolbar, setShowVolbar] = useState<boolean>(false);
+  const playbackOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 
   // start and stop timer of video
