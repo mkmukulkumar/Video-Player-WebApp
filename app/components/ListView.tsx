@@ -35,7 +35,7 @@ export default function ListView({data}:ListViewProps) {
         </div>
         <ul className={`list-none grid ${toggleViewMode?'grid-cols-4 gap-y-8 gap-x-2':'grid-cols-1 gap-2'} mx-48`}>
           {data.map((item) => (
-              <li className={`bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:z-10 hover:${toggleViewMode?'scale-125':'scale-105'} hover:drop-shadow-2xl`} 
+              <li className={`bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:z-10 hover:${toggleViewMode?"scale-125":"scale-105"} hover:drop-shadow-2xl`} 
                   key={item.title}>
                     <Link href={{pathname:'/video', query:{url:item.sources[0]}}} className={`flex ${toggleViewMode?"flex-col":"flex-row"} p-1`}>
                       <div className="basis-1/4">

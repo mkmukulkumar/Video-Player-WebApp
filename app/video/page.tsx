@@ -31,6 +31,9 @@ export default function Page() {
   const [ControlsVisible,setControlsVisible]=useState(false);
   const [CenterIcon,setCenterIcon]=useState(false);
   const [CenterTag,setCenterTag]=useState(<PlayFill/>)
+  const [Vol,setVol]=useState(100);
+  const [SeekVal,setSeekVal]=useState(0.0);
+  const [ShowVolbar,setShowVolbar]=useState(false);
   const playbackOptions=[0.25,0.5,0.75,1,1.25,1.5,1.75,2]
 
 
@@ -40,6 +43,7 @@ export default function Page() {
       timerRef.current = setInterval(() => {
         const video = videoRef.current;
         if (video) {
+          setSeekVal((Math.ceil(video.currentTime)/Math.ceil(video.duration))*100)
           if (video.currentTime < video.duration) {
             var date_format=convertSeconds(Math.ceil(video.currentTime))
             setCurrentTime(date_format);
@@ -120,6 +124,32 @@ export default function Page() {
     setPlaybackRate(event.target.value);
   }
 
+  // change volume
+  const handlevolume=(event)=>{
+    const video=videoRef.current
+    if(video){
+      const vol=parseFloat(event.target.value)
+      video.volume=vol;
+      setVol(vol)
+      setMute(vol===0.0)
+      if(vol===0.0){
+        setCenterTag(<VolumeMute/>)
+      }
+      
+    }
+  }
+
+  // change seek
+  const handleseek=(event)=>{
+    const video=videoRef.current
+    if(video){
+      const seek=parseFloat(event.target.value)
+      const currentseek=(video.duration)*(seek/100)
+      video.currentTime=currentseek
+    }
+
+  }
+
   //to hide controls on no mouse movement
   const showControls=()=>{
     setControlsVisible(true);
@@ -137,6 +167,7 @@ export default function Page() {
       setCenterIcon(false);
     }, 500)
   }, [CenterTag]);
+
 
   return (
     <div ref={videoplayerRef} 
@@ -168,7 +199,7 @@ export default function Page() {
         
         <div className={`py-4 mx-48 duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}>  
           <div className="mb-2">
-            <input className='w-full h-1' type="range" />
+            <input className='w-full h-1 cursor-pointer' type="range" defaultValue={SeekVal} onChange={handleseek}/>
             <p>{(CurrentTime==="NaN:NaN:NaN"||Duration==="NaN:NaN:NaN")?'':`${CurrentTime} / ${Duration}`}</p>
           </div>
           <div className='flex  justify-between'>
@@ -176,9 +207,9 @@ export default function Page() {
               <button className='text-2xl'onClick={()=>{videoRef.current.currentTime=videoRef.current.currentTime-10; setCenterTag(<ChevronDoubleLeft className='text-6xl'/>)}}><ChevronDoubleLeft/></button>
               <button className='text-6xl' onClick={handleplay}>{Play?<PlayFill/>:<PauseFill/>}</button>
               <button className='text-2xl' onClick={()=>{videoRef.current.currentTime=videoRef.current.currentTime+10; setCenterTag(<ChevronDoubleRight className='text-6xl'/>)}}><ChevronDoubleRight/></button>
-              <div className='flex items-center'>
-                <button className='text-2xl'onClick={()=>{setMute(!Mute); Mute?setCenterTag(<VolumeUpFill/>):setCenterTag(<VolumeMute/>)}}>{Mute?<VolumeMute/>:<VolumeUpFill/>}</button>
-                <input className='ml-2 w-20 h-0.5' type="range" />
+              <div className='flex items-center' onMouseEnter={()=>setShowVolbar(true)} onMouseLeave={()=>setShowVolbar(false)}>
+                <button className='text-2xl'onClick={()=>{setMute(!Mute);  Mute?setCenterTag(<VolumeUpFill/>):setCenterTag(<VolumeMute/>)}}>{Mute?<VolumeMute/>:<VolumeUpFill/>}</button>
+                <input className={`ml-2 w-20 h-0.5 cursor-pointer transition-scale duration-700 ease-in-out origin-left ${ShowVolbar?"scale-x-100":"scale-x-0"}`} type="range" value={Mute?0:Vol} onChange={handlevolume} min={0} max={1} step={0.01} />
               </div>  
             </div>
             <div className='flex items-center'>
