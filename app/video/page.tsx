@@ -196,20 +196,18 @@ export default function Page() {
 
   return (
         <div ref={videoplayerRef} 
-        className='flex flex-col bg-black justify-center h-screen'
-        onMouseMove={showControls}
-        onClick={showControls}
-        >
-          <Suspense fallback={<div>Loading...</div>}>
-            <video muted={Mute} 
-                ref={videoRef}
-                className="h-full"
-                onLoadedMetadata={handleLoadedMetadata}
-                onClick={handleplay}>
-              <source src={url} type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>
-          </Suspense>      
+              className='flex flex-col bg-black justify-center h-screen'
+              onMouseMove={showControls}
+              onClick={showControls}
+              >
+          <video muted={Mute} 
+              ref={videoRef}
+              className="h-full"
+              onLoadedMetadata={handleLoadedMetadata}
+              onClick={handleplay}>
+            <source src={url} type="video/mp4"/>
+            Your browser does not support the video tag.
+          </video>      
           <div className={`fixed bottom-0 w-full`}>
             {/* black shadow on top controls */}
             <div className={`fixed -top-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`}></div>
