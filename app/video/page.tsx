@@ -2,9 +2,16 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useRef, useEffect, Suspense} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
-import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute} from 'react-bootstrap-icons';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from '@/redux/store';
+import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute, ChevronLeft, ChevronRight, Arrow90degLeft} from 'react-bootstrap-icons';
+import { useAppSelector } from "@/redux/store";
+import { addtoPlaylist } from '@/redux/features/playlistslice';
+import Link from 'next/link';
 export default function Page() {
 
+  const playlist=useAppSelector((state)=>state.playlist.value) 
+  const dispatch=useDispatch<AppDispatch>();
   // reference variables
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoplayerRef = useRef<HTMLDivElement>(null);
@@ -25,6 +32,7 @@ export default function Page() {
   const [Vol, setVol] = useState<number>(100);
   const [SeekVal, setSeekVal] = useState<number>(0.0);
   const [ShowVolbar, setShowVolbar] = useState<boolean>(false);
+  const [ShowPlaylist,setShowPlaylist]=useState<boolean>(true)
   const playbackOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 
@@ -51,6 +59,7 @@ export default function Page() {
     if (timerRef.current !== null) {
       clearInterval(timerRef.current);
     }
+  // dispatch(removefromPlaylist(playlist[0]))  
   };
 
   //full screen mode
@@ -175,6 +184,7 @@ export default function Page() {
       setCenterTag(<ChevronDoubleLeft className='text-6xl'/>)
     }
   }
+  
   //handle forward
   const handleforward=()=>{
     const video=videoRef.current
@@ -214,19 +224,22 @@ export default function Page() {
     };
   }, [handlereverse,handleplay,handleforward,handlereverse,handlefullscreen,Mute]);
 
-
-
-  //get value from url
+  // //get value from url
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const url = searchParams.get('url');
-  if (!url) {
+  if(playlist.length==0){
     router.push('/');
     return null;
   }
-
+  
+// to play from playlist
+  useEffect(() => {
+    if (videoRef.current && playlist.length > 0 && playlist[0].sources.length > 0) {
+      videoRef.current.load();
+    }
+  }, [playlist]);
   return (
       
+      <div>
         <div  ref={videoplayerRef} 
               className='flex flex-col bg-black justify-center h-screen'
               onMouseMove={showControls}
@@ -240,7 +253,7 @@ export default function Page() {
                   onClick={handleplay}
                   autoPlay
                   >
-                <source src={url} type="video/mp4"/>
+                <source src={playlist[0].sources[0]} type="video/mp4"/>
                 Your browser does not support the video tag.
               </video>      
               <div className={`fixed bottom-0 w-full`}>
@@ -249,7 +262,7 @@ export default function Page() {
                 <button className={`text-2xl w-full px-48 py-12 fixed top-0 left-0  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`} 
                       onClick={()=>{ router.push('/')}}>
                         <div className='flex items-center'>
-                          <ArrowLeft/><p className='text-xl mx-4'>Title</p>
+                          <ArrowLeft/><p className='text-xl mx-4'>{playlist[0].title}</p>
                         </div>
                 </button>
                 {/* center icons */}
@@ -297,6 +310,42 @@ export default function Page() {
                 </div>
               </div> 
           </Suspense> 
-        </div>   
+        </div>
+
+        <div className={`fixed top-0 h-screen flex flex-row  duration-700 ease-in-out ${ShowPlaylist?"-translate-x-96":"translate-x-0"}`}>                      
+          <div className='bg-neutral-900 p-3 bg-opacity-80 w-96 overflow-scroll scrollbar-hide'>
+            <div className='my-4 sticky flex items-center cursor-pointer' onClick={()=>{setShowPlaylist(!ShowPlaylist)}}>
+              <ArrowLeft/><p className='ml-2'>My Playlist</p>
+            </div>
+            <div>
+              {playlist.map((item)=>
+              <Link href={{pathname:'/video'}}>
+                  <div className={`p-1 mb-1 flex bg-opacity-40 bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:drop-shadow-2xl`} 
+                  key={item.title}
+                  onClick={()=>dispatch(addtoPlaylist(item))}
+                  >
+                      <div className="w-24">
+                          <img className="object-cover rounded-lg" 
+                              src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} 
+                              alt={item.title} 
+                              />
+                      </div>     
+                      <div className={`ml-2 flex justify-between  items-center`}>
+                          <div className={`flex flex-col 'm-1'`}>
+                              <p className="text-sm font-medium" >{item.title}</p>   
+                              <p className='text-xs text-neutral-400'>{item.subtitle}</p>
+                          </div>
+                      </div>
+                  </div>
+                </Link>                  
+                  )}
+              </div> 
+              
+          </div>
+          <div className={`h-screen text-3xl items-center flex cursor-pointer`} onClick={()=>{setShowPlaylist(!ShowPlaylist)}}><ChevronRight/></div>
+        </div>
+
+
+      </div>
   );
 };

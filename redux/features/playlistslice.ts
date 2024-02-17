@@ -10,10 +10,12 @@ export interface ListItem {
 
 interface InitialState {
   value: ListItem[];
+  index:number
 }
 
 const initialState: InitialState = {
   value: [],
+  index:0,
 };
 
 
@@ -23,11 +25,14 @@ export const playlist= createSlice({
     initialState,
     reducers: {
         addtoPlaylist:(state,action:PayloadAction<ListItem>)=>{
+            // state.value.unshift(action.payload);
             const itemIndex = state.value.findIndex(item => item.title === action.payload.title);
             if (itemIndex === -1) {
                 state.value.unshift(action.payload);
-            } else {
-                window.alert("Item already exists in the playlist. Skipping...");
+            } 
+            else{
+                const [existingItem] = state.value.splice(itemIndex, 1);
+                state.value.unshift(existingItem);
             }
             
         },

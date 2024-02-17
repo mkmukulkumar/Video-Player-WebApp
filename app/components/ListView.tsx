@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { Draggable } from "react-drag-reorder";
+import React, { useState } from 'react';
 import {ChevronLeft, FileEarmarkPlus, Grid, List, Trash} from 'react-bootstrap-icons';
 import { useDispatch } from "react-redux";
 import { AppDispatch } from '@/redux/store';
@@ -37,7 +36,7 @@ export default function ListView({data, search}:ListViewProps) {
                 <div className={`bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:z-10 hover:scale-125 hover:drop-shadow-2xl`} 
                 key={item.title}
                 >
-                  <Link href={{pathname:'/video', query:{url:item.sources[0]}}} className={`flex flex-col p-1`}>
+                  <Link href={{pathname:'/video'}} className={`flex flex-col p-1`}>
                     <div className="w-64">
                         <img className="object-cover rounded-lg" 
                             src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} 
@@ -46,19 +45,15 @@ export default function ListView({data, search}:ListViewProps) {
                     </div> 
                   </Link>     
                     <div className={`flex justify-between  items-center`}>
-                      <Link href={{pathname:'/video', query:{url:item.sources[0]}}}>
+                      <Link href={{pathname:'/video'}}>
                         <div className={`flex flex-col 'm-1'`}>
                             <p className="text-sm font-medium" >{item.title}</p>   
                             <p className='text-xs text-neutral-400'>{item.subtitle}</p>
-                            {toggleViewMode?'':<p className='text-xs  font-thin mt-3'>{item.description}</p>}
                         </div>
                       </Link>
                       <p className="cursor-pointer text-xs py-1 px-2 " onClick={()=>dispatch(removefromPlaylist(item))}><Trash/></p> 
                     </div>
-                </div>
-                
-                
-                
+                </div>                
                 )}
               </div> 
         </div>:<div></div>
@@ -82,11 +77,12 @@ export default function ListView({data, search}:ListViewProps) {
         </div>  
         <ul className={`list-none grid ${toggleViewMode?'grid-cols-4 gap-y-8 gap-x-2':'grid-cols-1 gap-2'} mx-48`}>
           {data.map((item) => (
-              <li className={`bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:z-10 ${toggleViewMode?"hover:scale-125":"hover:scale-105"} hover:drop-shadow-2xl`} 
+              <li className={`bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:z-10 ${toggleViewMode?"hover:scale-125":"flex hover:scale-105"} hover:drop-shadow-2xl`} 
                   key={item.title}
+                  onClick={()=>dispatch(addtoPlaylist(item))}
                   >
-                    <Link href={{pathname:'/video', query:{url:item.sources[0]}}} className={`flex ${toggleViewMode?"flex-col":"flex-row"} p-1`}>
-                      <div className="basis-1/4">
+                    <Link href={{pathname:'/video'}} className={`flex ${toggleViewMode?"flex-col":"flex-row"} basis-1/4 p-1`}>
+                      <div>
                           <img className="object-cover rounded-lg" 
                                src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} 
                                alt={item.title} 
@@ -94,14 +90,14 @@ export default function ListView({data, search}:ListViewProps) {
                       </div> 
                     </Link>     
                       <div className={`flex justify-between basis-3/4 ${toggleViewMode?'items-center':'item-start'}`}>
-                        <Link href={{pathname:'/video', query:{url:item.sources[0]}}}>
+                        <Link href={{pathname:'/video'}}>
                           <div className={`flex flex-col  ${toggleViewMode?'m-1':'mx-5 my-6'}`}>
                               <p className="text-sm font-medium" >{item.title}</p>   
                               <p className='text-xs text-neutral-400'>{item.subtitle}</p>
                               {toggleViewMode?'':<p className='text-xs  font-thin mt-3'>{item.description}</p>}
                           </div>
                         </Link>
-                        <p className="cursor-pointer text-lg py-1 px-2" onClick={()=>dispatch(addtoPlaylist(item))}><FileEarmarkPlus/></p> 
+                        <p className="cursor-pointer text-lg py-1 px-2" ><FileEarmarkPlus/></p> 
                       </div>
               </li>
           ))}
