@@ -185,6 +185,37 @@ export default function Page() {
     }
   }
 
+  // add shortcuts for player
+  useEffect(() => {
+    console.log("run")
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === ' ') {
+        handleplay();
+      }
+      if (event.key === 'f'||event.key === 'F') {
+        handlefullscreen();
+      }
+      else if (event.key === 'ArrowRight') {
+        handleforward();
+        showControls();
+      }
+      else if (event.key === 'ArrowLeft') {
+        handlereverse();
+        showControls();
+      }
+      else if (event.key === 'm'||event.key === 'M') {
+        setMute(!Mute)
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handlereverse,handleplay,handleforward,handlereverse,handlefullscreen,Mute]);
+
+
+
   //get value from url
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -207,7 +238,7 @@ export default function Page() {
                   className="h-full"
                   onLoadedMetadata={handleLoadedMetadata}
                   onClick={handleplay}
-                  // autoPlay
+                  autoPlay
                   >
                 <source src={url} type="video/mp4"/>
                 Your browser does not support the video tag.
