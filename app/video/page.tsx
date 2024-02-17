@@ -320,7 +320,6 @@ export default function Page() {
             </div>
             <div>
               {playlist.map((item)=>
-              <Link href={{pathname:'/video'}}>
                   <div className={`p-1 mb-1 flex bg-opacity-40 bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:drop-shadow-2xl`} 
                   key={item.title}
                   onClick={()=>dispatch(addtoPlaylist(item))}
@@ -337,16 +336,13 @@ export default function Page() {
                               <p className='text-xs text-neutral-400'>{item.subtitle}</p>
                           </div>
                       </div>
-                  </div>
-                </Link>                  
+                  </div>                 
                   )}
               </div> 
               
           </div>
           <div className={`h-screen text-3xl items-center flex cursor-pointer`} onClick={()=>{setShowPlaylist(!ShowPlaylist)}}><ChevronRight/></div>
         </div>
-
-
       </div>
   );
 };
