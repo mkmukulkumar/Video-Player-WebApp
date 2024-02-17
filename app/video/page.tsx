@@ -1,13 +1,13 @@
 "use client"
-import { useRouter, useSearchParams } from 'next/navigation';
+
+import { useRouter } from 'next/navigation'
 import { useState, useRef, useEffect, Suspense} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
 import { useDispatch } from "react-redux";
 import { AppDispatch } from '@/redux/store';
-import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute, ChevronLeft, ChevronRight, Arrow90degLeft} from 'react-bootstrap-icons';
+import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute, ChevronRight} from 'react-bootstrap-icons';
 import { useAppSelector } from "@/redux/store";
 import { addtoPlaylist } from '@/redux/features/playlistslice';
-import Link from 'next/link';
 export default function Page() {
 
   const playlist=useAppSelector((state)=>state.playlist.value) 
@@ -86,7 +86,14 @@ export default function Page() {
       videoRef.current.load();
     }
   }, [playlist]);
-
+  
+  //if no data in playlist
+  const router = useRouter();
+  useEffect(() => {
+    if (playlist.length <= 0) {
+      router.push('/');
+    }
+  }, [playlist, router]);
   //play action change and all variable dependent on it
   useEffect(() => {
     const video = videoRef.current;
@@ -230,12 +237,7 @@ export default function Page() {
     };
   }, [handlereverse,handleplay,handleforward,handlereverse,handlefullscreen,Mute]);
 
-  // //get value from url
-  const router = useRouter();
-  if(playlist.length==0){
-    router.push('/');
-    return null;
-  }
+  
   
 
   return (
@@ -254,7 +256,11 @@ export default function Page() {
                   onClick={handleplay}
                   autoPlay
                   >
-                <source src={playlist[0].sources[0]} type="video/mp4"/>
+                  {playlist.length > 0 ? (
+                    <source src={playlist[0].sources[0]} type="video/mp4"/>
+                  ) : (
+                    <p>Your playlist is empty</p>
+                  )}
                 Your browser does not support the video tag.
               </video>      
               <div className={`fixed bottom-0 w-full`}>
@@ -263,7 +269,13 @@ export default function Page() {
                 <button className={`text-2xl w-full px-48 py-12 fixed top-0 left-0  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`} 
                       onClick={()=>{ router.push('/')}}>
                         <div className='flex items-center'>
-                          <ArrowLeft/><p className='text-xl mx-4'>{playlist[0].title}</p>
+                        <ArrowLeft/>
+                        {playlist.length > 0 ? (
+                          <p className='text-xl mx-4'>{playlist[0].title}</p>
+                        ) : (
+                          <p>Your playlist is empty</p>
+                        )}
+                          
                         </div>
                 </button>
                 {/* center icons */}
