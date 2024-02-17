@@ -80,6 +80,12 @@ export default function Page() {
   const handleplay=()=>{
     setPlay(!Play)   
   }
+  // to play from playlist
+  useEffect(() => {
+    if (videoRef.current && playlist.length > 0 && playlist[0].sources.length > 0) {
+      videoRef.current.load();
+    }
+  }, [playlist]);
 
   //play action change and all variable dependent on it
   useEffect(() => {
@@ -231,12 +237,7 @@ export default function Page() {
     return null;
   }
   
-// to play from playlist
-  useEffect(() => {
-    if (videoRef.current && playlist.length > 0 && playlist[0].sources.length > 0) {
-      videoRef.current.load();
-    }
-  }, [playlist]);
+
   return (
       
       <div>
