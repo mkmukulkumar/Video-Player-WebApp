@@ -10,12 +10,10 @@ export interface ListItem {
 
 interface InitialState {
   value: ListItem[];
-  index:number
 }
 
 const initialState: InitialState = {
   value: [],
-  index:0,
 };
 
 

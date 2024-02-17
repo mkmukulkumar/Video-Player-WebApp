@@ -50,6 +50,7 @@ export default function Page() {
             var date_format=convertSeconds(Math.ceil(video.duration))
             setCurrentTime(date_format);
             setPlay(false)
+            dispatch(addtoPlaylist(playlist[0]))
           }
         }
       }, 1000); 
@@ -59,7 +60,6 @@ export default function Page() {
     if (timerRef.current !== null) {
       clearInterval(timerRef.current);
     }
-  // dispatch(removefromPlaylist(playlist[0]))  
   };
 
   //full screen mode
@@ -94,6 +94,7 @@ export default function Page() {
       router.push('/');
     }
   }, [playlist, router]);
+
   //play action change and all variable dependent on it
   useEffect(() => {
     const video = videoRef.current;
@@ -107,7 +108,7 @@ export default function Page() {
         video.pause();
         setCenterTag(<PauseFill/>)
         stopTimer();
-      }
+      } 
     }
 
   }, [Play]);
