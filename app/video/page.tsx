@@ -26,7 +26,7 @@ export default function Page() {
   const [Duration, setDuration] = useState<string>("00:00:00");
   const [CurrentTime, setCurrentTime] = useState<string>("00:00:00");
   const [PlaybackRate, setPlaybackRate] = useState<number>(1);
-  const [ControlsVisible, setControlsVisible] = useState<boolean>(false);
+  const [ControlsVisible, setControlsVisible] = useState<boolean>(true);
   const [CenterIcon, setCenterIcon] = useState<boolean>(false);
   const [CenterTag, setCenterTag] = useState<JSX.Element>(<PlayFill />);
   const [Vol, setVol] = useState<number>(100);
@@ -267,12 +267,12 @@ export default function Page() {
               <div className={`fixed bottom-0 w-full`}>
                 {/* black shadow on top controls */}
                 <div className={`fixed -top-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`}></div>
-                <button className={`text-2xl w-full px-48 py-12 fixed top-0 left-0  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`} 
+                <button className={`text-2xl w-full px-2 md:px-10 xl:px-48 lg:px-28 py-12 fixed top-0 left-0  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`} 
                       onClick={()=>{ router.push('/')}}>
                         <div className='flex items-center'>
                         <ArrowLeft/>
                         {playlist.length > 0 ? (
-                          <p className='text-xl mx-4'>{playlist[0].title}</p>
+                          <p className='text-sm xl:text-lg lg:text-lg mx-4'>{playlist[0].title}</p>
                         ) : (
                           <p>Your playlist is empty</p>
                         )}
@@ -284,7 +284,7 @@ export default function Page() {
                 {/* black shadow on controls */}
                 <div className={`fixed -bottom-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}></div>
                 
-                <div className={`py-4 mx-48 duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}>  
+                <div className={`py-4 mx-2 md:mx-10 xl:mx-48 lg:mx-28 duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}>  
                   <div className="mb-2">
                     <input className='w-full h-1 cursor-pointer' 
                           type="range" 
@@ -293,7 +293,7 @@ export default function Page() {
                     <p>{(CurrentTime==="NaN:NaN:NaN"||Duration==="NaN:NaN:NaN")?'':`${CurrentTime} / ${Duration}`}</p>
                   </div>
                   <div className='flex  justify-between'>
-                    <div className='flex justify-between w-1/3'>
+                    <div className='flex justify-between lg:w-1/3 md:w-1/2 w-3/4'>
                       <button className='text-2xl' onClick={handlereverse}><ChevronDoubleLeft/></button>
                       <button className='text-6xl' onClick={handleplay}>{Play?<PlayFill/>:<PauseFill/>}</button>
                       <button className='text-2xl' onClick={handleforward}><ChevronDoubleRight/></button>
@@ -310,7 +310,7 @@ export default function Page() {
                     </div>
                     <div className='flex items-center'>
                       <div className='flex items-center'>
-                        <select defaultValue={PlaybackRate} className='text-sm s outline-0 bg-transparent mx-14 py-1 cursor-pointer' onChange={handlePlaybackRate}>
+                        <select defaultValue={PlaybackRate} className='text-sm s outline-0 bg-transparent sm:mx-14 mx-2 py-1 cursor-pointer' onChange={handlePlaybackRate}>
                             {playbackOptions.map((option) => (
                               <option className='bg-neutral-800' key={option} value={option}>
                                 {option}x
@@ -326,10 +326,10 @@ export default function Page() {
           </Suspense> 
         </div>
 
-        <div className={`fixed top-0 h-screen flex flex-row  duration-700 ease-in-out ${ShowPlaylist?"-translate-x-96":"translate-x-0"}`}>                      
-          <div className='bg-neutral-900 p-3 bg-opacity-80 w-96 overflow-scroll scrollbar-hide'>
+        <div className={`fixed top-0 h-screen flex flex-row  duration-700 ease-in-out ${ShowPlaylist?"md:-translate-x-96 -translate-x-64":"md:translate-x-0"}`}>                      
+          <div className='bg-neutral-900 p-3 bg-opacity-80 md:w-96 w-64 overflow-scroll scrollbar-hide'>
             <div className='my-4 sticky flex items-center cursor-pointer' onClick={()=>{setShowPlaylist(!ShowPlaylist)}}>
-              <ArrowLeft/><p className='ml-2'>My Playlist</p>
+              <ArrowLeft/><p className='ml-2 text-sm xl:text-lg lg:text-lg'>My Playlist</p>
             </div>
             <div>
               {playlist.map((item)=>
@@ -345,7 +345,7 @@ export default function Page() {
                       </div>     
                       <div className={`ml-2 flex justify-between  items-center`}>
                           <div className={`flex flex-col 'm-1'`}>
-                              <p className="text-sm font-medium" >{item.title}</p>   
+                              <p className="text-xs font-medium" >{item.title}</p>   
                               <p className='text-xs text-neutral-400'>{item.subtitle}</p>
                           </div>
                       </div>
