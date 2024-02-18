@@ -5,9 +5,9 @@ import { useState, useRef, useEffect, Suspense} from 'react';
 import convertSeconds from '../utilFunctions/convertSeconds';
 import { useDispatch } from "react-redux";
 import { AppDispatch } from '@/redux/store';
-import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute, ChevronRight} from 'react-bootstrap-icons';
+import { PlayFill, ChevronDoubleRight, ChevronDoubleLeft, PauseFill, VolumeUpFill, Fullscreen, ArrowLeft, FullscreenExit, VolumeMute, ChevronRight, Trash} from 'react-bootstrap-icons';
 import { useAppSelector } from "@/redux/store";
-import { addtoPlaylist } from '@/redux/features/playlistslice';
+import { addtoPlaylist,removefromPlaylist } from '@/redux/features/playlistslice';
 export default function Page() {
 
   const playlist=useAppSelector((state)=>state.playlist.value) 
@@ -333,22 +333,22 @@ export default function Page() {
             </div>
             <div>
               {playlist.map((item)=>
-                  <div className={`p-1 mb-1 flex bg-opacity-40 bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:drop-shadow-2xl`} 
+                  <div className={`p-1 mb-1 flex bg-opacity-40 items-center bg-neutral-900 rounded p-1 hover:bg-neutral-800 transform transition-transform ease-in-out duration-300 hover:drop-shadow-2xl`} 
                   key={item.title}
-                  onClick={()=>dispatch(addtoPlaylist(item))}
                   >
-                      <div className="w-24">
+                      <div className="w-24 cursor-pointer"  onClick={()=>dispatch(addtoPlaylist(item))}>
                           <img className="object-cover rounded-lg" 
                               src={`http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/${item.thumb}`} 
                               alt={item.title} 
                               />
                       </div>     
-                      <div className={`ml-2 flex justify-between  items-center`}>
-                          <div className={`flex flex-col 'm-1'`}>
+                      <div className={`ml-2 flex grow justify-between cursor-pointer items-center`} onClick={()=>dispatch(addtoPlaylist(item))} >
+                          <div className={`flex flex-col m-1`} >
                               <p className="text-xs font-medium" >{item.title}</p>   
                               <p className='text-xs text-neutral-400'>{item.subtitle}</p>
                           </div>
                       </div>
+                      <p className="cursor-pointer text-sm md:text-lg xl:px-2 py-1 px-0 " onClick={()=>dispatch(removefromPlaylist(item))}><Trash/></p> 
                   </div>                 
                   )}
               </div> 
