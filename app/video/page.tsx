@@ -56,6 +56,7 @@ export default function Page() {
       }, 1000); 
   }
   };
+  //stop timer
   const stopTimer = () => {
     if (timerRef.current !== null) {
       clearInterval(timerRef.current);
@@ -80,6 +81,7 @@ export default function Page() {
   const handleplay=()=>{
     setPlay(!Play)   
   }
+
   // to play from playlist
   useEffect(() => {
     if (videoRef.current && playlist.length > 0 && playlist[0].sources.length > 0) {
@@ -95,7 +97,7 @@ export default function Page() {
     }
   }, [playlist, router]);
 
-  //play action change and all variable dependent on it
+  //play action change and execute functions dependent on it
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
@@ -178,7 +180,7 @@ export default function Page() {
     }, 5000);
   }
 
-  //to show icons on the center of the page
+  //to show icons on the center of the page for 5 seconds
   useEffect(() => { 
     setCenterIcon(true)
     if (centertimeRef.current !== null) {
@@ -189,7 +191,7 @@ export default function Page() {
     }, 500)
   }, [CenterTag]);
 
-  //handle reverse
+  //skip 10 second in reverse
   const handlereverse=()=>{
     const video=videoRef.current
     if(video){
@@ -199,7 +201,7 @@ export default function Page() {
     }
   }
   
-  //handle forward
+  //skip 10 second in forward
   const handleforward=()=>{
     const video=videoRef.current
     if(video){
@@ -211,7 +213,7 @@ export default function Page() {
 
   // add shortcuts for player
   useEffect(() => {
-    console.log("run")
+    
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === ' ') {
         handleplay();
@@ -244,6 +246,7 @@ export default function Page() {
   return (
       
       <div>
+        {/* Video Player */}
         <div  ref={videoplayerRef} 
               className='flex flex-col bg-black justify-center h-screen'
               onMouseMove={showControls}
@@ -264,8 +267,9 @@ export default function Page() {
                   )}
                 Your browser does not support the video tag.
               </video>      
+              {/* top video title/label */}
               <div className={`fixed bottom-0 w-full`}>
-                {/* black shadow on top controls */}
+                {/* black shadow on video title/label */}
                 <div className={`fixed -top-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`}></div>
                 <button className={`text-2xl w-full px-2 md:px-10 xl:px-48 lg:px-28 py-12 fixed top-0 left-0  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"-translate-y-40"}`} 
                       onClick={()=>{ router.push('/')}}>
@@ -283,7 +287,7 @@ export default function Page() {
                 <div className={`text-8xl fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-scale duration-500 ${CenterIcon ? 'scale-100' : 'scale-0'}`} onClick={handleplay}>{CenterTag}</div>
                 {/* black shadow on controls */}
                 <div className={`fixed -bottom-24 w-screen bg-black h-48 blur-2xl bg-opacity-70  duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}></div>
-                
+                {/* Constrols */}
                 <div className={`py-4 mx-2 md:mx-10 xl:mx-48 lg:mx-28 duration-700 ease-in-out ${ControlsVisible?"translate-y-0":"translate-y-40"}`}>  
                   <div className="mb-2">
                     <input className='w-full h-1 cursor-pointer' 
@@ -325,7 +329,7 @@ export default function Page() {
               </div> 
           </Suspense> 
         </div>
-
+        {/* Playlist Panel */}
         <div className={`fixed top-0 h-screen flex flex-row  duration-700 ease-in-out ${ShowPlaylist?"md:-translate-x-96 -translate-x-64":"md:translate-x-0"}`}>                      
           <div className='bg-neutral-900 p-3 bg-opacity-80 md:w-96 w-64 overflow-scroll scrollbar-hide'>
             <div className='my-4 sticky flex items-center cursor-pointer' onClick={()=>{setShowPlaylist(!ShowPlaylist)}}>
@@ -351,9 +355,9 @@ export default function Page() {
                       <p className="cursor-pointer text-sm md:text-lg xl:px-2 py-1 px-0 " onClick={()=>dispatch(removefromPlaylist(item))}><Trash/></p> 
                   </div>                 
                   )}
-              </div> 
-              
+            </div>     
           </div>
+          {/* To show playlist panel */}
           <div className={`h-screen text-3xl items-center flex cursor-pointer`} onClick={()=>{setShowPlaylist(!ShowPlaylist)}}><ChevronRight/></div>
         </div>
       </div>

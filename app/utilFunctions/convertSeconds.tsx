@@ -1,3 +1,4 @@
+//To covert seconds to hh:mm:ss
 export default function convertSeconds (seconds: number): string {
     const hrs = Math.floor(seconds / (60*60))
     const mm = Math.floor((seconds-(hrs*60*60))/60)
